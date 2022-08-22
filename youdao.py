@@ -19,12 +19,13 @@ def main():
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 Edg/104.0.1293.63"
     }
     input_text = input('请输入要翻译的内容')
-    bv = encrypt_md5(
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 Edg/104.0.1293.63')
-    sign = encrypt_md5("fanyideskweb" + input_text + bv + "Ygy_4c=r#e#4EX^NUGUc5")
     t = time.time()
     lts = int(round(t * 1000))
     salt = str(lts) + str(random.randint(0, 9))
+    bv = encrypt_md5(
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 Edg/104.0.1293.63')
+    sign = encrypt_md5("fanyideskweb" + input_text + salt + "Ygy_4c=r#e#4EX^NUGUc5")
+
     data = {
         "i": input_text,
         "from": "AUTO",
