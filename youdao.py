@@ -21,17 +21,35 @@ def get_cookie():
 
 def main():
     url = 'https://fanyi.youdao.com/translate_o?smartresult=dict&smartresult=rule'
-    head = {"Accept": "application/json, text/javascript, */*; q=0.01", "Accept-Encoding": "gzip, deflate, br",
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6", "Connection": "keep-alive",
-            "Content-Length": "255", "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-            "Cookie": "OUTFOX_SEARCH_USER_ID=1700880464@10.108.162.134",
-            "DNT": "1", "Host": "fanyi.youdao.com", "Origin": "https://fanyi.youdao.com",
-            "Referer": "https://fanyi.youdao.com/",
-            "sec-ch-ua": "\"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Microsoft Edge\";v=\"104\"",
-            "sec-ch-ua-mobile": "?0", "sec-ch-ua-platform": "\"Windows\"", "Sec-Fetch-Dest": "empty",
-            "Sec-Fetch-Mode": "cors", "Sec-Fetch-Site": "same-origin",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.81 Safari/537.36 Edg/104.0.1293.47",
-            "X-Requested-With": "XMLHttpRequest"}
+
+    session = requests.Session()
+
+    head = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+        "Cache-Control": "max-age=0",
+        "Connection": "keep-alive",
+        "DNT": "1",
+        "Host": "fanyi.youdao.com",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.81 Safari/537.36 Edg/104.0.1293.47",
+        "sec-ch-ua": "\"Chromium\";v=\"104\", \" Not A;Brand\";v=\"99\", \"Microsoft Edge\";v=\"104\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\""
+    }
+
+    res_home = session.get('https://fanyi.youdao.com/', headers=head)
+    # cookies = res_home.cookies.get_dict()
+    # session.headers.update('Cookie',)
+    # session.cookies.set('OUTFOX_SEARCH_USER_ID', cookies['OUTFOX_SEARCH_USER_ID'])
+    # print(cookies['OUTFOX_SEARCH_USER_ID'])
+    # return False
+
     input_text = input('请输入要翻译的内容')
     t = time.time()
     lts = int(round(t * 1000))
@@ -55,9 +73,9 @@ def main():
         "keyfrom": "fanyi.web",
         "action": "FY_BY_CLICKBUTTION",
     }
-    res = requests.post(url=url, data=data, headers=head)
-    # print(res.json())
-    print(get_cookie())
+    res = session.post(url=url, data=data, headers=head)
+    print(res.json())
+    # print(res.cookies)
 
 
 if __name__ == '__main__':
